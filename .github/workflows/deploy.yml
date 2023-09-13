@@ -23,6 +23,5 @@ jobs:
             npm install
             npx prisma migrate deploy
             npm run build
-            pm2 delete k2
-            pm2 start --name=k2 "npm run start"
+            pm2 restart k2
             echo 'done'
