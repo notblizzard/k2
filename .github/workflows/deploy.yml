@@ -1,0 +1,28 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy To DigitalOcean Droplet
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.SSH_HOST}}
+          username: ${{secrets.SSH_USERNAME}}
+          key: ${{secrets.SSH_KEY}}
+          script: |
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            cd /var/www/k2
+            git pull
+            npm install
+            npx prisma migrate deploy
+            npm run build
+            pm2 delete k2
+            pm2 start --name=k2 "npm run start"
+            echo 'done'
