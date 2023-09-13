@@ -8,7 +8,7 @@ jobs:
   test:
     timeout-minutes: 60
     env:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/postgres?schema=public
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?schema=public
     runs-on: ubuntu-latest
     services:
       postgres:
